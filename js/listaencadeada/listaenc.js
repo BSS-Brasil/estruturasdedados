@@ -4,6 +4,8 @@ let lista = [];
 let palavraLida = "";
 
 let primeiro;
+let corrente;
+let anterior;
 
 const criaNo = (p) => { 
   let obj = { palavra: p, prox: null };
@@ -31,16 +33,29 @@ while (true) {
   }
 
   let no = criaNo(palavraLida);
+  lista.push(no);
+  inserido = lista.length - 1;
 
   if (lista.length === 0) {
-    lista.push(no);
     primeiro = 0;
   } else {
-    lista.push(no);
-    let inserido = lista.length - 1;
-    if (lista[inserido].palavra < lista[primeiro].palavra) {
-      lista[inserido].prox = primeiro;
-      primeiro = inserido;
+    corrente = primeiro;
+
+    if (lista[inserido].palavra < lista[corrente].palavra) {
+      if (corrente === primeiro) {
+        lista[inserido].prox = primeiro;
+        primeiro = inserido
+      } else {
+        anterior = corrente;
+        lista[inserido].prox = corrente;
+        lista[anterior].prox = inserido;
+      }
+    } else {
+      if (lista[corrente].prox === null) {
+        lista[corrente].prox = inserido;
+      } else {
+        corrente = lista[corrente].prox;
+      }
     }
   }
 
